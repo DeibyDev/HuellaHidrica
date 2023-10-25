@@ -4,6 +4,7 @@ import lombok.Builder;
 import lombok.Data;
 
 import java.util.Date;
+import java.util.Set;
 import java.util.UUID;
 
 @Data
@@ -15,6 +16,7 @@ public class RespuestaGenerica<T> {
 
     private Date fecha;
     private T objeto;
+    private Set<T> set;
 
     public RespuestaGenerica(Integer code, String mensaje, T objeto) {
         this.numeroTransaccion = UUID.randomUUID().toString();
