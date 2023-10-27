@@ -1,8 +1,12 @@
 package com.huella.hidrica.repository.finca;
+import com.huella.hidrica.repository.municipio.MunicipioData;
 import com.huella.hidrica.repository.persona.PersonaData;
+import com.huella.hidrica.repository.potrero.PotreroData;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.List;
 
 
 @Data
@@ -11,9 +15,8 @@ import lombok.NoArgsConstructor;
 @Entity
 public class FincaData {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "cod_finca")
-    private Integer numeroFinca;
+    private String numeroFinca;
 
     @Column(name = "per_id_persona")
     private String idPersona;
@@ -45,6 +48,9 @@ public class FincaData {
     @Column(name = "uso_suplemento")
     private String usoSuplemento;
 
+    @OneToMany(fetch = FetchType.EAGER , cascade = CascadeType.ALL)
+    @JoinColumn(name = "cod_finca")
+    private List<PotreroData> potreros;
 
 }
 

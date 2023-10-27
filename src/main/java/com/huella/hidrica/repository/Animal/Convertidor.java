@@ -3,6 +3,9 @@ package com.huella.hidrica.repository.Animal;
 import com.huella.hidrica.model.Animal.Animal;
 import com.huella.hidrica.model.Animal.Raza;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 public class Convertidor {
 
     public static Animal convertirAAnimaldominio(AnimalData data){
@@ -11,6 +14,8 @@ public class Convertidor {
                 .fechaNacimiento(data.getFechaNacimiento())
                 .numeroCrotal(data.getCodigoAnimal())
                 .numeroPartos(data.getNumeroPartos())
+                .nombreAnimal(data.getNombreAnimal())
+                .codigoPotrero(data.getCodigoPotrero())
                 .build();
     }
     public static  AnimalData convertidorAnimalData(Animal data){
@@ -19,7 +24,14 @@ public class Convertidor {
        animalData.setCodigoRaza(convertidorARazaData(data.getRaza()));
        animalData.setFechaNacimiento(data.getFechaNacimiento());
        animalData.setNumeroPartos(data.getNumeroPartos());
+       animalData.setNombreAnimal(data.getNombreAnimal());
+       animalData.setCodigoPotrero(data.getCodigoPotrero());
        return animalData;
+    }
+
+
+    public static List<Animal> listarAnimales(List<AnimalData> animalData){
+        return animalData.stream().map(Convertidor::convertirAAnimaldominio).collect(Collectors.toList());
     }
 
     public static Raza convertidorARazaDominio(RazaData data){

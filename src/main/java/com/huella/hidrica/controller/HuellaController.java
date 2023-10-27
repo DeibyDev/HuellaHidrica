@@ -3,92 +3,113 @@ package com.huella.hidrica.controller;
 import com.huella.hidrica.model.Animal.Animal;
 import com.huella.hidrica.model.Departamento.Departamento;
 import com.huella.hidrica.model.Finca;
-import com.huella.hidrica.model.Municipio.Municipio;
 import com.huella.hidrica.model.Persona.Persona;
+import com.huella.hidrica.model.Potrero.Potrero;
+import com.huella.hidrica.model.Translado.Translado;
 import com.huella.hidrica.service.*;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 
 @RestController
 @RequestMapping("/Huella")
 @RequiredArgsConstructor
+@CrossOrigin(origins = "*", methods= {RequestMethod.GET,RequestMethod.POST})
 public class HuellaController {
 
     private final FincaService fincaService;
     private final PersonaService personaService;
-    private final MunicipioService municipioService;
     private final DepartamentoService departamentoService;
     private final AnimalService animalService;
+    private final TransladoService transladoService;
+    private final PotreroService potreroService;
 
-
-        @PostMapping("/crearFinca")
-    public String crearFinca(@RequestBody Finca finca) {
-        try {
-            fincaService.crearFinca(finca);
-            return "Finca Creada";
-        } catch (Exception exception) {
-            throw new RuntimeException("Error al crear la finca" + exception.getMessage());
-        }
-
-    }
 
     @PostMapping("/crearPersona")
-    public ResponseEntity<RespuestaGenerica> registrarPersona(@RequestBody Persona persona){
+    public RespuestaGenerica<String> registrarPersona(@RequestBody Persona persona) {
         try {
-            String idUsuarioRegistrado = personaService.crearPersona(persona);
-               return new ResponseEntity<>(new RespuestaGenerica(200, idUsuarioRegistrado), HttpStatus.ACCEPTED);
+            return personaService.crearPersona(persona);
         } catch (Exception exception) {
-            return new ResponseEntity<>(new RespuestaGenerica(400, exception.getMessage()), HttpStatus.ACCEPTED);
+            return new RespuestaGenerica<>(400, "Error Al crear la Persona");
         }
     }
 
-    @GetMapping("/listarMunicipio/{codigoDepartamento}")
-    public ResponseEntity<List<Municipio>> listarMunicipio(@PathVariable Integer codigoDepartamento ){
+    @PostMapping("/crearFinca")
+    public RespuestaGenerica<String> crearFinca(@RequestBody Finca finca) {
         try {
-            List<Municipio> municipiosPorDepartamento = municipioService.listarMunicipios(codigoDepartamento);
-            return new ResponseEntity<>(municipiosPorDepartamento, HttpStatus.ACCEPTED);
+            return fincaService.crearFinca(finca);
         } catch (Exception exception) {
-            return new ResponseEntity<>(new ArrayList<>(), HttpStatus.ACCEPTED);
+            return new RespuestaGenerica<>(400, "Error al crear la finca");
+        }
+    }
+
+    @GetMapping("/listarFinca/{numeroPropietario}")
+    public RespuestaGenerica<Finca> listarFincaPropietario(@PathVariable String numeroPropietario) {
+        try {
+            return fincaService.buscarFinca(numeroPropietario);
+        } catch (Exception exception) {
+            return new  RespuestaGenerica<>(400,"Error al consultar las fincas");
         }
     }
 
 
-    @GetMapping("/listarDepartamento")
-    public ResponseEntity<Departamento> listarDepartamento(){
+
+    @PostMapping("/crearPotrero")
+    public RespuestaGenerica<String> crearFinca(@RequestBody Potrero potrero) {
         try {
-            Departamento departamentos = departamentoService.listaDepartamento();
-            return new ResponseEntity<>(departamentos, HttpStatus.ACCEPTED);
+            return potreroService.crearPotrero(potrero);
         } catch (Exception exception) {
-            return new ResponseEntity<>(Departamento.builder().build(), HttpStatus.ACCEPTED);
+            return new RespuestaGenerica<>(400,"Error al crear el potrero");
         }
     }
+
+
+    @GetMapping("/listarPotrero/{codigoFinca}")
+    public RespuestaGenerica<Potrero> listarPotrero(@PathVariable String codigoFinca) {
+        try {
+            return potreroService.listarPotrerosFinca(codigoFinca);
+        } catch (Exception exception) {
+            return new RespuestaGenerica<>(400,"Error al Cargar la lista de los potreros");
+        }
+    }
+
 
     @GetMapping("/listarDepartamentos")
-    public ResponseEntity<List<Departamento>> listarDepartamentos(){
+    public RespuestaGenerica<Departamento> listarDepartamentos() {
         try {
-            List<Departamento> departamentos = departamentoService.listarDepartamentos();
-            return new ResponseEntity<>(departamentos, HttpStatus.ACCEPTED);
+            return departamentoService.listarDepartamentos();
         } catch (Exception exception) {
-            return new ResponseEntity<>(new ArrayList<>(), HttpStatus.ACCEPTED);
+            return new RespuestaGenerica<>(400,"Error al Consultar los departamentos");
         }
     }
 
     @PostMapping("/crearAnimal")
-    public ResponseEntity<RespuestaGenerica> crearAnimal(@RequestBody  Animal animal){
+    public RespuestaGenerica<String> crearAnimal(@RequestBody Animal animal) {
         try {
-            String idAnimal = animalService.crearAnimal(animal);
-            return new ResponseEntity<>(new RespuestaGenerica(200, idAnimal), HttpStatus.CREATED);
+           return animalService.crearAnimal(animal);
         } catch (Exception exception) {
-            return new ResponseEntity<>(new RespuestaGenerica(400, exception.getMessage()), HttpStatus.BAD_REQUEST);
+            return new RespuestaGenerica<>(400,"Error al crear el animal");
         }
     }
+
+    @PostMapping("/transaladarAnimal")
+    public RespuestaGenerica<String> transladarAnimal(@RequestBody Translado translado) {
+        try {
+           return transladoService.transladarAnimal(translado);
+        } catch (Exception exception) {
+           return new RespuestaGenerica<>(400,"Error al trasladar el animal a otro potrero");
+        }
+    }
+
+    @GetMapping("/listarAnimales")
+    public RespuestaGenerica<Animal> listarAnimales() {
+        try {
+            return animalService.listarAnimales();
+        } catch (Exception exception) {
+            return new RespuestaGenerica<>(400,"Error al listar los animales");
+        }
+    }
+
+
 
 
 }

@@ -11,7 +11,7 @@ public class Persona {
 
     private String id_persona;
     private String tipo_documento;
-    private Integer numero_documento;
+    private String numero_documento;
     private String nombres;
     private String apellidos;
     private String auditoriaUsuario;

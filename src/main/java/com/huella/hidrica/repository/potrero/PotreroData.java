@@ -1,11 +1,11 @@
 package com.huella.hidrica.repository.potrero;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import com.huella.hidrica.repository.Animal.AnimalData;
+import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.List;
 
 @Data
 @Entity
@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 public class PotreroData {
     @Id
     @Column(name = "cod_potrero")
-    private Integer codigoPotrero;
+    private String codigoPotrero;
 
     @Column(name = "nom_potrero")
     private String nombrePotrero;
@@ -26,14 +26,18 @@ public class PotreroData {
     private Integer codigoPasto;
 
     @Column(name = "cap_Max_agua_azul")
-    private String capacidadMaximaAgua;
+    private Float capacidadMaximaAgua;
 
     @Column(name = "cupo_max_animales")
-    private String capacidadMaximaAnimales;
+    private Integer capacidadMaximaAnimales;
 
     @Column(name = "cap_Max_forraje")
-    private String capacidadMaximaForraje;
+    private Float capacidadMaximaForraje;
 
     @Column(name = "cod_finca")
     private String codigoFinca;
+
+    @OneToMany(fetch = FetchType.EAGER , cascade = CascadeType.ALL)
+    @JoinColumn(name = "cod_potrero")
+    private List<AnimalData> animales;
 }

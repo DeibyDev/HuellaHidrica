@@ -1,10 +1,10 @@
 package com.huella.hidrica.service;
 
+import com.huella.hidrica.controller.RespuestaGenerica;
 import com.huella.hidrica.model.Finca;
-import com.huella.hidrica.repository.finca.FincaData;
 
 public interface IFinca {
-    FincaData crearFinca(Finca finca);
-    Finca buscarFinca(String numeroFinca);
+    RespuestaGenerica<String> crearFinca(Finca finca);
+    RespuestaGenerica buscarFinca(String numeroFinca);
 
 }

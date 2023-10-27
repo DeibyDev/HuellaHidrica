@@ -22,7 +22,7 @@ public class PersonaData {
     private String tipoDocumento;
 
     @Column(name= "per_numero_documento")
-    private Integer numeroDocumento;
+    private String numeroDocumento;
 
     @Column(name= "per_nombres")
     private String nombres;

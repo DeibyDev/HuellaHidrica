@@ -5,8 +5,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.Optional;
 
 
-public interface PersonaDataRepository extends JpaRepository<PersonaData,Integer> {
+public interface PersonaDataRepository extends JpaRepository<PersonaData,String> {
 
-    Optional<PersonaData> findByTipoDocumentoAndNumeroDocumento(String tipoDocumento , Integer numeroDocumento);
+    Optional<PersonaData> findByTipoDocumentoAndNumeroDocumento(String tipoDocumento , String numeroDocumento);
 
 }

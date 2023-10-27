@@ -7,7 +7,9 @@ import lombok.Data;
 @Builder(toBuilder = true)
 public class Animal {
     private String numeroCrotal;
+    private String nombreAnimal;
     private String fechaNacimiento;
     private Integer numeroPartos;
+    private String codigoPotrero;
     private Raza raza;
 }

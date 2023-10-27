@@ -21,7 +21,6 @@ public class DepartamentoData {
     @Column(name = "departamento")
     private String nombreDepartamento;
 
-
     @OneToMany(fetch = FetchType.EAGER , cascade = CascadeType.ALL)
     @JoinColumn(name = "id_departamento")
     private List<MunicipioData> municipios;

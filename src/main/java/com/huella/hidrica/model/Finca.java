@@ -1,13 +1,16 @@
 package com.huella.hidrica.model;
+import com.huella.hidrica.model.Potrero.Potrero;
 import lombok.Builder;
 import lombok.Data;
+
+import java.util.List;
 
 
 @Data
 @Builder(toBuilder = true)
 public class Finca {
     private String id_persona;
-    private Integer codigoFinca;
+    private String codigoFinca;
     private String nombreFinca;
     private Integer numeroTelefono;
     private Integer codigoDepartamento;
@@ -17,4 +20,5 @@ public class Finca {
     private Integer numeroOrdenoDiario;
     private Float areaTotal;
     private String usoSuplemento;
+    private List<Potrero> potreros;
 }

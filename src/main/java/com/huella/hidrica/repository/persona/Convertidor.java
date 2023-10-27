@@ -9,7 +9,7 @@ public class Convertidor {
 
     public static Persona convertirAPersonaDominio(PersonaData personaData){
         return Persona.builder()
-                .id_persona(UUID.randomUUID().toString())
+                .id_persona(personaData.getIdPersona())
                 .fecha(new Date())
                 .apellidos(personaData.getApellidos())
                 .nombres(personaData.getNombres())
@@ -21,7 +21,7 @@ public class Convertidor {
 
     public static PersonaData convertirAPersonaData(Persona persona){
         PersonaData data = new PersonaData();
-        data.setIdPersona(UUID.randomUUID().toString());
+        data.setIdPersona(persona.getTipo_documento().concat(persona.getNumero_documento()));
         data.setApellidos(persona.getApellidos());
         data.setNombres(persona.getNombres());
         data.setFecha(new Date());
