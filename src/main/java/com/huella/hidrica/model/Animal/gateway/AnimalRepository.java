@@ -9,4 +9,6 @@ public interface AnimalRepository {
     RespuestaGenerica<String> crearAnimal(Animal animal);
 
     RespuestaGenerica<Animal> listarAnimales();
+
+    List<Animal> listarAnimalesPotrero(String codigoPotrero);
 }

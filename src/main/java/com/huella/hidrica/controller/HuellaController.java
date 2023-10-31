@@ -10,6 +10,9 @@ import com.huella.hidrica.service.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @RestController
 @RequestMapping("/Huella")
 @RequiredArgsConstructor
@@ -108,6 +111,16 @@ public class HuellaController {
             return new RespuestaGenerica<>(400,"Error al listar los animales");
         }
     }
+
+    @GetMapping("/calcularEdad/{codigoPotrero}")
+    public List<Animal> listarEdades(@PathVariable String codigoPotrero) {
+        try {
+            return animalService.listarAnimalesPotrero(codigoPotrero);
+        } catch (Exception exception) {
+            return new ArrayList<>();
+        }
+    }
+
 
 
 
