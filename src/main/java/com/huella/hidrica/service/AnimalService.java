@@ -1,5 +1,7 @@
 package com.huella.hidrica.service;
 
+import com.huella.hidrica.DTO.AnimalCalculadoDTO;
+import com.huella.hidrica.DTO.ResultadosDTO;
 import com.huella.hidrica.controller.RespuestaGenerica;
 import com.huella.hidrica.model.Animal.Animal;
 import com.huella.hidrica.model.Animal.gateway.AnimalRepository;
@@ -48,31 +50,66 @@ public class AnimalService  implements AnimalRepository {
     }
 
     @Override
-    public List<Animal> listarAnimalesPotrero(String codigoPotrero)  {
+    public ResultadosDTO listarAnimalesPotrero(String codigoPotrero)  {
         try {
-            return  Convertidor.listarAnimales(animalDataRepository.findByCodigoPotrero(codigoPotrero))
-                    .stream()
-                    .map(animal -> {
-                        try {
-                            return animal.toBuilder().edadAnimal(calcularEdadAnimal(animal)).build();
-                        } catch (ParseException exception) {
-                            return null;
-                        }
-                    }).filter(Objects::nonNull)
-                    .map(edadCalculada -> {
-                      if (edadCalculada.getNumeroPartos() > 1){
-                        return   edadCalculada.toBuilder().configuracion(
-                                Optional.ofNullable(com.huella.hidrica.repository.Configuracion.Convertidor.convertirAConfiguracionDominio(configuracionDataRepository.findUserByParto(edadCalculada.getNumeroPartos()))))
-                                .build();
-                      }
-                        return  edadCalculada.toBuilder().configuracion(
-                                        Optional.ofNullable(com.huella.hidrica.repository.Configuracion.Convertidor.convertirAConfiguracionDominio(configuracionDataRepository.findUserByEdad(edadCalculada.getEdadAnimal()))))
-                                .build();
-                    }).collect(Collectors.toList());
+
+            List<AnimalCalculadoDTO> animalesCalculados = calcular(codigoPotrero);
+
+            Optional<Float> aguaPromedio = animalesCalculados.stream().map(AnimalCalculadoDTO::getAguaPromedio).reduce(Float::sum);
+            Optional<Float> forrajePromedio = animalesCalculados.stream().map(AnimalCalculadoDTO::getForrajePromedio).reduce(Float::sum);
+
+            return  ResultadosDTO
+                    .builder()
+                    .animalCalculadoDTOS(animalesCalculados)
+                    .totalAguaPromedio(aguaPromedio.orElse((float) 0))
+                    .totalForrajePromedio(forrajePromedio.orElse((float) 0))
+                    .totalLechePromedio((float) 0)
+                    .build();
         }catch (Exception exception){
-            return new ArrayList<>();
+            return  null;
         }
     }
+
+    public List<AnimalCalculadoDTO> calcular(String codigoPotrero){
+        try{
+        return  Convertidor.listarAnimales(animalDataRepository.findByCodigoPotrero(codigoPotrero))
+                .stream()
+                .map(animal -> {
+                    try {
+                        return animal.toBuilder().edadAnimal(calcularEdadAnimal(animal)).build();
+                    } catch (ParseException exception) {
+                        return null;
+                    }
+                }).filter(Objects::nonNull)
+                .map(edadCalculada -> {
+                    if (edadCalculada.getNumeroPartos() > 1){
+                       return edadCalculada.toBuilder().configuracion(
+                                        Optional.ofNullable(com.huella.hidrica.repository.Configuracion.Convertidor
+                                                .convertirAConfiguracionDominio(configuracionDataRepository.findUserByParto(edadCalculada.getNumeroPartos()))))
+                                .build();
+                    }
+                    return  edadCalculada.toBuilder().configuracion(
+                                    Optional.ofNullable(com.huella.hidrica.repository.Configuracion.Convertidor
+                                            .convertirAConfiguracionDominio(configuracionDataRepository.findUserByEdad(edadCalculada.getEdadAnimal()))))
+                            .build();
+                }).map(animal -> AnimalCalculadoDTO
+                        .builder()
+                        .codigoAnimal(animal.getNumeroCrotal())
+                        .nombreAnimal(animal.getNombreAnimal())
+                        .etapa(animal.getConfiguracion().isPresent() ? animal.getConfiguracion().get().getEtapa() : "Sin clasificacion")
+                        .aguaPromedio(animal.getConfiguracion().isPresent() ? animal.getConfiguracion().get().getPorcentajeAgua() : 0)
+                        .forrajePromedio(animal.getConfiguracion().isPresent() ? animal.getConfiguracion().get().getPorcentajeForraje() : 0)
+                        .pesoPromedio(animal.getConfiguracion().isPresent() ? animal.getConfiguracion().get().getPeso() : "0" )
+                        .build()
+                )
+                .collect(Collectors.toList());
+    }catch (Exception exception){
+        return  null;
+    }
+
+    }
+
+
 
     public Integer calcularEdadAnimal(Animal animal) throws ParseException {
         SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");

@@ -1,5 +1,7 @@
 package com.huella.hidrica.repository.Configuracion;
 
+import com.huella.hidrica.DTO.AnimalCalculadoDTO;
+import com.huella.hidrica.model.Animal.Animal;
 import com.huella.hidrica.model.Configuraciones.Configuracion;
 
 public class Convertidor {
@@ -18,6 +20,8 @@ public class Convertidor {
                 .porcentajeForraje(Float.valueOf(configuracionData.getPorcentajeForraje()))
                 .build();
     }
+
+
 
 
 }

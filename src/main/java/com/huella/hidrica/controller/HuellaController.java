@@ -1,5 +1,6 @@
 package com.huella.hidrica.controller;
 
+import com.huella.hidrica.DTO.ResultadosDTO;
 import com.huella.hidrica.model.Animal.Animal;
 import com.huella.hidrica.model.Departamento.Departamento;
 import com.huella.hidrica.model.Finca;
@@ -113,11 +114,11 @@ public class HuellaController {
     }
 
     @GetMapping("/calcularEdad/{codigoPotrero}")
-    public List<Animal> listarEdades(@PathVariable String codigoPotrero) {
+    public ResultadosDTO listarEdades(@PathVariable String codigoPotrero) {
         try {
             return animalService.listarAnimalesPotrero(codigoPotrero);
         } catch (Exception exception) {
-            return new ArrayList<>();
+            return null;
         }
     }
 

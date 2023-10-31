@@ -1,5 +1,6 @@
 package com.huella.hidrica.model.Animal.gateway;
 
+import com.huella.hidrica.DTO.ResultadosDTO;
 import com.huella.hidrica.controller.RespuestaGenerica;
 import com.huella.hidrica.model.Animal.Animal;
 
@@ -10,5 +11,5 @@ public interface AnimalRepository {
 
     RespuestaGenerica<Animal> listarAnimales();
 
-    List<Animal> listarAnimalesPotrero(String codigoPotrero);
+   ResultadosDTO listarAnimalesPotrero(String codigoPotrero);
 }
