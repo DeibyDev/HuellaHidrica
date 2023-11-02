@@ -50,23 +50,25 @@ public class AnimalService  implements AnimalRepository {
     }
 
     @Override
-    public ResultadosDTO listarAnimalesPotrero(String codigoPotrero)  {
+    public RespuestaGenerica<ResultadosDTO> listarAnimalesPotrero(String codigoPotrero)  {
         try {
 
             List<AnimalCalculadoDTO> animalesCalculados = calcular(codigoPotrero);
 
             Optional<Float> aguaPromedio = animalesCalculados.stream().map(AnimalCalculadoDTO::getAguaPromedio).reduce(Float::sum);
-            Optional<Float> forrajePromedio = animalesCalculados.stream().map(AnimalCalculadoDTO::getForrajePromedio).reduce(Float::sum);
+            Optional<Float> forrajePromedio =  animalesCalculados.stream().map(AnimalCalculadoDTO::getForrajePromedio).reduce(Float::sum);
 
-            return  ResultadosDTO
+             ResultadosDTO resultadosDTO = ResultadosDTO
                     .builder()
                     .animalCalculadoDTOS(animalesCalculados)
                     .totalAguaPromedio(aguaPromedio.orElse((float) 0))
                     .totalForrajePromedio(forrajePromedio.orElse((float) 0))
                     .totalLechePromedio((float) 0)
                     .build();
+            return new RespuestaGenerica<>(200,"0",resultadosDTO);
+
         }catch (Exception exception){
-            return  null;
+            return new RespuestaGenerica<>(200,"Error al listar los animales " + exception.getMessage());
         }
     }
 
@@ -104,7 +106,7 @@ public class AnimalService  implements AnimalRepository {
                 )
                 .collect(Collectors.toList());
     }catch (Exception exception){
-        return  null;
+        return  new ArrayList<>();
     }
 
     }

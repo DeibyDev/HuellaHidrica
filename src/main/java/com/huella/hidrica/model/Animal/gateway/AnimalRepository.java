@@ -11,5 +11,5 @@ public interface AnimalRepository {
 
     RespuestaGenerica<Animal> listarAnimales();
 
-   ResultadosDTO listarAnimalesPotrero(String codigoPotrero);
+    RespuestaGenerica<ResultadosDTO> listarAnimalesPotrero(String codigoPotrero);
 }

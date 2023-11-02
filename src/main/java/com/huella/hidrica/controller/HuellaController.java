@@ -1,6 +1,8 @@
 package com.huella.hidrica.controller;
 
+import com.huella.hidrica.DTO.ActvidadesCalculadasDTO;
 import com.huella.hidrica.DTO.ResultadosDTO;
+import com.huella.hidrica.model.Actividad.Actividad;
 import com.huella.hidrica.model.Animal.Animal;
 import com.huella.hidrica.model.Departamento.Departamento;
 import com.huella.hidrica.model.Finca;
@@ -10,9 +12,6 @@ import com.huella.hidrica.model.Translado.Translado;
 import com.huella.hidrica.service.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @RestController
 @RequestMapping("/Huella")
@@ -26,6 +25,7 @@ public class HuellaController {
     private final AnimalService animalService;
     private final TransladoService transladoService;
     private final PotreroService potreroService;
+    private final ActividadService actividadService;
 
 
     @PostMapping("/crearPersona")
@@ -113,16 +113,36 @@ public class HuellaController {
         }
     }
 
-    @GetMapping("/calcularEdad/{codigoPotrero}")
-    public ResultadosDTO listarEdades(@PathVariable String codigoPotrero) {
+    @GetMapping("/listarAnimales/{codigoPotrero}")
+    public RespuestaGenerica<ResultadosDTO> listarEdades(@PathVariable String codigoPotrero) {
         try {
             return animalService.listarAnimalesPotrero(codigoPotrero);
         } catch (Exception exception) {
-            return null;
+            return new RespuestaGenerica<>(400,"Error al listar los animales por potrero");
         }
     }
 
 
+    @PostMapping("/crearActividad")
+    public RespuestaGenerica<String> guardarActividad(@RequestBody Actividad actividad) {
+        try {
+            return actividadService.guardarActividad(actividad);
+        } catch (Exception exception) {
+            return new RespuestaGenerica<>(400, "Error Al crear la Actividad");
+        }
+    }
+
+
+    @GetMapping("/ListarActividades/")
+    public RespuestaGenerica<ActvidadesCalculadasDTO> listarEdades(@RequestParam(required = false) String fechaInicio ,
+                                                                   @RequestParam(required = false) String fechafin,
+                                                                   @RequestParam String codigoPotrero) {
+        try {
+            return actividadService.listarActividadesPotreroFecha(codigoPotrero,fechaInicio,fechafin);
+        } catch (Exception exception) {
+            return new RespuestaGenerica<>(400,"Error al listar las actividades por potrero");
+        }
+    }
 
 
 
