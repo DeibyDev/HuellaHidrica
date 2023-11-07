@@ -25,7 +25,7 @@ public class FincaData {
     private String nombreFinca;
 
     @Column(name= "telefono")
-    private Integer telefono;
+    private String telefono;
 
     @Column(name= "cod_dpto")
     private Integer codigoDepartamento;
