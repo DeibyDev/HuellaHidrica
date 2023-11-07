@@ -5,6 +5,7 @@ import com.huella.hidrica.DTO.ResultadosDTO;
 import com.huella.hidrica.controller.RespuestaGenerica;
 import com.huella.hidrica.model.Animal.Animal;
 import com.huella.hidrica.model.Animal.gateway.AnimalRepository;
+import com.huella.hidrica.repository.Animal.AnimalData;
 import com.huella.hidrica.repository.Animal.AnimalDataRepository;
 
 import com.huella.hidrica.repository.Animal.Convertidor;
@@ -32,6 +33,10 @@ public class AnimalService  implements AnimalRepository {
     @Override
     public RespuestaGenerica<String> crearAnimal(Animal animal) {
         try {
+           Optional<AnimalData> animalEncontrado = animalDataRepository.findById(animal.getNumeroCrotal());
+            if(animalEncontrado.isPresent()){
+                return new RespuestaGenerica<>(200,"1");
+            }
             animalDataRepository.save(Convertidor.convertidorAnimalData(animal));
             return new RespuestaGenerica<>(200,"0");
         }catch (Exception exception){

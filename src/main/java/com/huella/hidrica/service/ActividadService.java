@@ -32,13 +32,12 @@ public class ActividadService implements ActividadRepository {
     @Override
     public RespuestaGenerica<ActvidadesCalculadasDTO> listarActividadesPotreroFecha(String codigoPotrero, String fechaInicio, String fechaFin) {
        try{
-
            List<Actividad> actividadesEncontradas;
            if(Objects.nonNull(fechaFin) && Objects.nonNull(fechaInicio) && !fechaInicio.isEmpty() && !fechaFin.isEmpty()){
               actividadesEncontradas  = Convertidor.convertirADataList(actividadDataRepository.buscarPorFechaYCodigoPotrero(fechaInicio,fechaFin,codigoPotrero));
-               Optional<Float> promedioConsumoAgua = actividadesEncontradas.stream().map(Actividad::getTotalPromedioAgua).reduce(Float::sum);
-               Optional<Float> promedioConsumoForraje = actividadesEncontradas.stream().map(Actividad::getTotalPromedioForraje).reduce(Float::sum);
-               Optional<Float> promedioConsumoLeche = actividadesEncontradas.stream().map(Actividad::getTotalPromedioLeche).reduce(Float::sum);
+               Optional<Float> promedioConsumoAgua = actividadesEncontradas.stream().map(actividad -> actividad.getActividadConsumo().getTotalPromedioAgua()).reduce(Float::sum);
+               Optional<Float> promedioConsumoForraje = actividadesEncontradas.stream().map(actividad -> actividad.getActividadConsumo().getTotalPromedioForraje()).reduce(Float::sum);
+               Optional<Float> promedioConsumoLeche = actividadesEncontradas.stream().map(actividad -> actividad.getActividadConsumo().getTotalPromedioLeche()).reduce(Float::sum);
                ActvidadesCalculadasDTO actvidadesCalculadasDTO = ActvidadesCalculadasDTO
                        .builder()
                        .cantidadAguaUtilizada(promedioConsumoAgua.orElse((float) 0))
