@@ -26,7 +26,7 @@ public class Convertidor {
                 .numeroOrdenoDiario(fincaData.getNumeroOrdenos())
                 .usoSuplemento(fincaData.getUsoSuplemento())
                 .tipoOrdeno(fincaData.getTipoOrdeno())
-                .numeroTelefono(fincaData.getTelefono())
+                .numeroTelefono(Integer.valueOf(fincaData.getTelefono()))
                 .potreros(listaPotreros(fincaData.getPotreros()))
                 .build();
     }
@@ -42,7 +42,7 @@ public class Convertidor {
         data.setAreaTotal(finca.getAreaTotal());
         data.setNombreFinca(finca.getNombreFinca());
         data.setNumeroFinca(finca.getCodigoFinca());
-        data.setTelefono(finca.getNumeroTelefono());
+        data.setTelefono(String.valueOf(finca.getNumeroTelefono()));
         data.setCodigoMunicipio(finca.getCodigoMunicipio());
         data.setNombreVereda(finca.getNombreVereda());
         data.setNumeroOrdenos(finca.getNumeroOrdenoDiario());
