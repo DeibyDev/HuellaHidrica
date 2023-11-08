@@ -11,8 +11,8 @@ public class Actividad {
     private Integer numeroActividad;
     private String codigoPotrero;
     private String tipoActividad;
-    private Date fechaInicio;
-    private Date fechaFinal;
+    private String fechaInicio;
+    private String fechaFinal;
     private String usuarioLoggeado;
     private ActividadConsumo actividadConsumo;
 }

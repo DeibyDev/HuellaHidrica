@@ -159,7 +159,7 @@ public class HuellaController {
     }
 
     @GetMapping("/listarConfiguracion/{codigoPasto}")
-    public RespuestaGenerica<List<ConfiguracionConstantes>> listarConfiguracionPasto(@PathVariable Integer codigoPasto) {
+    public RespuestaGenerica<Pasto> listarConfiguracionPasto(@PathVariable Integer codigoPasto) {
         try {
             return pastoService.listarConstantesPorPasto(codigoPasto);
         } catch (Exception exception) {

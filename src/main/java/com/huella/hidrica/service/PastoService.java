@@ -37,12 +37,12 @@ public class PastoService implements PastoRepository {
     }
 
     @Override
-    public RespuestaGenerica<List<ConfiguracionConstantes>> listarConstantesPorPasto(Integer idPasto) {
+    public RespuestaGenerica<Pasto> listarConstantesPorPasto(Integer idPasto) {
         try {
         Optional<PastoData> configuracion = pastoDataRepository.findById(idPasto);
         if (configuracion.isPresent()){
-            return new RespuestaGenerica<>(200, "0", configuracion.stream().map(data -> Convertidor
-                    .configuracionConstantesData(data.getConfiguracionConstantesData())).collect(Collectors.toList()));
+            return new RespuestaGenerica<>(200, "0", Convertidor.
+                    convertidorADominio(configuracion.orElse(null)));
         }
         return new RespuestaGenerica<>(200, "1" , new ArrayList<>());
         } catch (Exception exception) {
