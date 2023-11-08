@@ -8,4 +8,5 @@ import lombok.Data;
 public class Pasto {
     private Integer codigoPasto;
     private String nombrePasto;
+
 }
