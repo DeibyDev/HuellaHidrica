@@ -167,6 +167,16 @@ public class HuellaController {
         }
     }
 
+    @GetMapping("/listarPastos")
+    public RespuestaGenerica<Pasto> listarPastos() {
+        try {
+            return pastoService.listarPasto();
+        } catch (Exception exception) {
+            return new RespuestaGenerica<>(400,"Error al listar los animales por potrero");
+        }
+    }
+
+
 
 
 }

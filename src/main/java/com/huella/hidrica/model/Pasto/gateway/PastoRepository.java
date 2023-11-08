@@ -10,4 +10,6 @@ import java.util.List;
 public interface PastoRepository {
     RespuestaGenerica<String> crearPasto(Pasto pasto);
     RespuestaGenerica<Pasto>listarConstantesPorPasto(Integer idPasto);
+
+    RespuestaGenerica<Pasto> listarPasto();
 }

@@ -26,6 +26,10 @@ public class Convertidor {
                 .build();
     }
 
+    public static List<Pasto> convertidoListaADominio(List<PastoData> data){
+        return data.stream().map(Convertidor::convertidorADominio).collect(Collectors.toList());
+    }
+
     public static PastoData convertidorAData(Pasto pasto){
         PastoData data = new PastoData();
         data.setCodigoPasto(pasto.getCodigoPasto());

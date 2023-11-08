@@ -49,4 +49,14 @@ public class PastoService implements PastoRepository {
             return new RespuestaGenerica<>(400, "Error al Consultar el pasto");
         }
     }
+
+    @Override
+    public RespuestaGenerica<Pasto> listarPasto() {
+        try {
+            List<Pasto> pastoEncontrados = Convertidor.convertidoListaADominio(pastoDataRepository.findAll());
+            return new RespuestaGenerica<>(200, "0", pastoEncontrados);
+        }catch (Exception exception){
+            return new RespuestaGenerica<>(400, "Error al Consultar los pastos");
+        }
+    }
 }
