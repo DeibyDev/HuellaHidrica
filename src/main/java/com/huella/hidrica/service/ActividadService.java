@@ -9,6 +9,8 @@ import com.huella.hidrica.repository.Actividad.Convertidor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -22,6 +24,14 @@ public class ActividadService implements ActividadRepository {
     @Override
     public RespuestaGenerica<String> guardarActividad(Actividad actividad) {
         try {
+            SimpleDateFormat outputFormat = new SimpleDateFormat("yyyy/MM/dd");
+            String fechaInicio = outputFormat.format(actividad.getFechaInicio());
+            Date fechaFormateadaInicio = outputFormat.parse(fechaInicio);
+
+            String fechaFin = outputFormat.format(actividad.getFechaFinal());
+            Date fechaFormateadaFin = outputFormat.parse(fechaFin);
+            actividad = actividad.toBuilder().fechaInicio(fechaFormateadaInicio).fechaFinal(fechaFormateadaFin).build();
+
             actividadDataRepository.save(Convertidor.convertidorDeDominioAData(actividad));
             return new RespuestaGenerica<>(200,"0");
         }catch (Exception exception){

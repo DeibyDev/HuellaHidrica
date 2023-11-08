@@ -30,6 +30,6 @@ public class ActividadData {
     @Column(name = "usuario_registro")
     private String usuario;
 
-    @ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private ActividadConsumoData actividaConsumoData;
 }

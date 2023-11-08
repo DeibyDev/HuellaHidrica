@@ -6,12 +6,16 @@ import com.huella.hidrica.model.Actividad.Actividad;
 import com.huella.hidrica.model.Animal.Animal;
 import com.huella.hidrica.model.Departamento.Departamento;
 import com.huella.hidrica.model.Finca;
+import com.huella.hidrica.model.Pasto.ConfiguracionConstantes;
+import com.huella.hidrica.model.Pasto.Pasto;
 import com.huella.hidrica.model.Persona.Persona;
 import com.huella.hidrica.model.Potrero.Potrero;
 import com.huella.hidrica.model.Translado.Translado;
 import com.huella.hidrica.service.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/Huella")
@@ -26,6 +30,7 @@ public class HuellaController {
     private final TransladoService transladoService;
     private final PotreroService potreroService;
     private final ActividadService actividadService;
+    private final PastoService pastoService;
 
 
     @PostMapping("/crearPersona")
@@ -141,6 +146,24 @@ public class HuellaController {
             return actividadService.listarActividadesPotreroFecha(codigoPotrero,fechaInicio,fechafin);
         } catch (Exception exception) {
             return new RespuestaGenerica<>(400,"Error al listar las actividades por potrero");
+        }
+    }
+
+    @PostMapping("/crearPasto")
+    public RespuestaGenerica<String> crearPasto(@RequestBody Pasto pasto) {
+        try {
+            return pastoService.crearPasto(pasto);
+        } catch (Exception exception) {
+            return new RespuestaGenerica<>(400,"Error al trasladar el animal a otro potrero");
+        }
+    }
+
+    @GetMapping("/listarConfiguracion/{codigoPasto}")
+    public RespuestaGenerica<List<ConfiguracionConstantes>> listarConfiguracionPasto(@PathVariable Integer codigoPasto) {
+        try {
+            return pastoService.listarConstantesPorPasto(codigoPasto);
+        } catch (Exception exception) {
+            return new RespuestaGenerica<>(400,"Error al listar los animales por potrero");
         }
     }
 

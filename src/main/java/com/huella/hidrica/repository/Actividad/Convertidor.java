@@ -16,6 +16,7 @@ public class Convertidor {
                      .tipoActividad(data.getTipoActividad())
                      .fechaFinal(data.getFechaFin())
                      .usuarioLoggeado(data.getUsuario())
+                     .codigoPotrero(data.getCodigoPotrero())
                      .actividadConsumo(convertidorActividadConsumoADominio(data.getActividaConsumoData()))
                      .build();
     }
@@ -44,7 +45,7 @@ public class Convertidor {
 
 
 
-    public static ActividadConsumoData convertidorDominioAData(ActividadConsumo actividadConsumo){
+    public static ActividadConsumoData convertidorDominioAData(ActividadConsumo actividadConsumo, Integer numeroActividad){
         ActividadConsumoData actividadData = new ActividadConsumoData();
         actividadData.setPromedioAguaSistema(actividadConsumo.getTotalPromedioAguaCalculadaSistema());
         actividadData.setPromedioForrajeSistema(actividadConsumo.getTotalPromedioForrajeCalculadaSistema());
@@ -53,7 +54,7 @@ public class Convertidor {
         actividadData.setPromedioForrajeUsuario(actividadConsumo.getTotalPromedioForraje());
         actividadData.setPromedioAguaUsuario(actividadConsumo.getTotalPromedioAgua());
         actividadData.setCodigoActividad(actividadConsumo.getNumeroActividad());
-        actividadData.setNumeroActividadConsumo(actividadConsumo.getActividadConsumo());
+        actividadData.setNumeroActividadConsumo(numeroActividad);
         actividadData.setTotalAreaUtilizada(actividadConsumo.getTotalAreaUsada());
         actividadData.setTotalConsumodirecto(actividadConsumo.getTotalConsumoDirecto());
         actividadData.setTotalConsumoIndirecto(actividadConsumo.getTotalConsumoIndirecto());
@@ -69,13 +70,13 @@ public class Convertidor {
 
     public static ActividadData convertidorDeDominioAData(Actividad actividad){
         ActividadData actividadData = new ActividadData();
-        actividadData.setNumeroActividad(actividad.getNumeroActividad());
         actividadData.setFechaFin(actividad.getFechaFinal());
         actividadData.setFechaInicio(actividad.getFechaInicio());
         actividadData.setTipoActividad(actividad.getTipoActividad());
         actividadData.setCodigoPotrero(actividad.getCodigoPotrero());
         actividadData.setUsuario(actividad.getUsuarioLoggeado());
-        actividadData.setActividaConsumoData(convertidorDominioAData(actividad.getActividadConsumo()));
+        actividadData.setActividaConsumoData(convertidorDominioAData(actividad.getActividadConsumo(),
+                actividad.getNumeroActividad()));
         return actividadData;
     }
 

@@ -43,7 +43,6 @@ public class Convertidor {
 
     public static  RazaData convertidorARazaData(Raza data){
        RazaData razaData = new RazaData();
-       razaData.setId(data.getCodigoRaza());
        razaData.setNombreRaza(data.getNombreRaza());
        return razaData;
     }
