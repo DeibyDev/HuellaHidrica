@@ -92,12 +92,14 @@ public class AnimalService  implements AnimalRepository {
                     if (edadCalculada.getNumeroPartos() > 1){
                        return edadCalculada.toBuilder().configuracion(
                                         Optional.ofNullable(com.huella.hidrica.repository.Configuracion.Convertidor
-                                                .convertirAConfiguracionDominio(configuracionDataRepository.findUserByParto(edadCalculada.getNumeroPartos()))))
+                                                .convertirAConfiguracionDominio(configuracionDataRepository.
+                                                        findUserByParto(edadCalculada.getNumeroPartos()))))
                                 .build();
                     }
                     return  edadCalculada.toBuilder().configuracion(
                                     Optional.ofNullable(com.huella.hidrica.repository.Configuracion.Convertidor
-                                            .convertirAConfiguracionDominio(configuracionDataRepository.findUserByEdad(edadCalculada.getEdadAnimal()))))
+                                            .convertirAConfiguracionDominio(configuracionDataRepository
+                                                    .findUserByEdad(edadCalculada.getEdadAnimal()))))
                             .build();
                 }).map(animal -> AnimalCalculadoDTO
                         .builder()
@@ -119,7 +121,7 @@ public class AnimalService  implements AnimalRepository {
 
 
     public Integer calcularEdadAnimal(Animal animal) throws ParseException {
-        SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
+        SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
         Date fechaActual = new Date();
         Date fechaNacimiento = formato.parse(animal.getFechaNacimiento());
         LocalDate localFechaActual = fechaActual.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
