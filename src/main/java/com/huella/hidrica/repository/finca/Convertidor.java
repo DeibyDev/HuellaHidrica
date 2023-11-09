@@ -26,7 +26,7 @@ public class Convertidor {
                 .numeroOrdenoDiario(fincaData.getNumeroOrdenos())
                 .usoSuplemento(fincaData.getUsoSuplemento())
                 .tipoOrdeno(fincaData.getTipoOrdeno())
-                .numeroTelefono(Integer.valueOf(fincaData.getTelefono()))
+                .numeroTelefono(fincaData.getTelefono())
                 .potreros(listaPotreros(fincaData.getPotreros()))
                 .build();
     }

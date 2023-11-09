@@ -32,7 +32,6 @@ public class Convertidor {
 
     public static PastoData convertidorAData(Pasto pasto){
         PastoData data = new PastoData();
-        data.setCodigoPasto(pasto.getCodigoPasto());
         data.setNombrePasto(pasto.getNombrePasto());
         data.setConfiguracionConstantesData(pasto.getConfiguracionConstantes().stream()
                 .map(configuracionConstantes ->

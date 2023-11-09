@@ -9,7 +9,7 @@ import java.util.List;
 @Data
 @Entity
 @NoArgsConstructor
-@Table(name = "Pasto")
+@Table(name = "pasto")
 public class PastoData {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
