@@ -68,7 +68,9 @@ public class PotreroService implements PotreroRepository {
         try {
             if (potreroEncontrado.isPresent()) {
                 potreroEncontrado.map(Convertidor::convertirPotreroADominio)
-                        .map(potreroConvertido -> potreroConvertido.getAnimales().stream().count())
+                        .map(potreroConvertido -> potreroConvertido.getAnimales().isPresent() ?
+                                potreroConvertido.getAnimales().get().stream().count()
+                                : 0)
                         .map(numeroAnimales -> {
                             if (numeroAnimales > 0) {
                                 return new RespuestaGenerica<>(200, "1",
