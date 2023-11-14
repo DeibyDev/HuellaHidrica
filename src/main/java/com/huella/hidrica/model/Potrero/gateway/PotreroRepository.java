@@ -9,5 +9,9 @@ public interface PotreroRepository {
 
     RespuestaGenerica<String> crearPotrero(Potrero potrero);
 
+    RespuestaGenerica<Potrero> actualizarPotrero(Potrero potrero);
+
+    RespuestaGenerica<Boolean> eliminarPotrero(String codigoPotrero);
+
     RespuestaGenerica<Potrero> listarPotrerosFinca(String numeroFinca);
 }

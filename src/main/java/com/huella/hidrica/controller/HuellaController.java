@@ -71,6 +71,37 @@ public class HuellaController {
         }
     }
 
+    @PutMapping("/actualizarPotrero")
+    public RespuestaGenerica<Potrero> actualizarPotrero(@RequestBody Potrero potrero) {
+        try {
+            return potreroService.actualizarPotrero(potrero);
+        } catch (Exception exception) {
+            return new RespuestaGenerica<>(400,"Error al actualizar el potrero");
+        }
+    }
+
+    @DeleteMapping("/potrero/{codigoPotrero}")
+    public RespuestaGenerica<Boolean> borrarPotrero(@PathVariable String codigoPotrero) {
+        try {
+            return potreroService.eliminarPotrero(codigoPotrero);
+        } catch (Exception exception) {
+            return new RespuestaGenerica<>(400,"Error al eliminar el potrero");
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     @GetMapping("/listarPotrero/{codigoFinca}")
     public RespuestaGenerica<Potrero> listarPotrero(@PathVariable String codigoFinca) {
