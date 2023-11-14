@@ -55,6 +55,44 @@ public class AnimalService  implements AnimalRepository {
     }
 
     @Override
+    public RespuestaGenerica<Animal> actualizarAnimal(Animal animal) {
+
+        try {
+           Optional<AnimalData> animalEncontrado= animalDataRepository.findById(animal.getNumeroCrotal());
+           if (animalEncontrado.isPresent()){
+               animalEncontrado.map(Convertidor::convertirAAnimaldominio)
+                       .map(animalConvertido->
+                               animalConvertido
+                                       .toBuilder()
+                                       .numeroPartos(animal.getNumeroPartos())
+                                       .raza(animal.getRaza())
+                                       .nombreAnimal(animal.getNombreAnimal())
+                                       .numeroCrotal(animal.getNumeroCrotal())
+                                       .fechaNacimiento(animal.getFechaNacimiento())
+                                       .codigoPotrero(animal.getCodigoPotrero())
+                               .build())
+                       .map(animalActualizado->animalDataRepository.save(Convertidor.convertidorAnimalData(animalActualizado)));
+               return new RespuestaGenerica<>(200,"0");
+           }
+            return new RespuestaGenerica<>(200,"1"); // 1 : Si el animal no existe
+        }catch (Exception exception){
+            return new RespuestaGenerica<>(400,"Error al actualizar el animal" + exception.getMessage());
+        }
+
+    }
+
+    @Override
+    public RespuestaGenerica<Boolean> borrarAnimal(String idAnimal) {
+        Optional<AnimalData> animalEncontrado= animalDataRepository.findById(idAnimal);
+        if (animalEncontrado.isPresent()){
+            animalDataRepository.deleteById(idAnimal);
+            return new RespuestaGenerica<>(200,"0");
+        }
+        return new RespuestaGenerica<>(200,"1"); // 1 : Si el animal no exi
+
+    }
+
+    @Override
     public RespuestaGenerica<ResultadosDTO> listarAnimalesPotrero(String codigoPotrero)  {
         try {
 

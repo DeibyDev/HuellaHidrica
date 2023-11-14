@@ -11,5 +11,9 @@ public interface AnimalRepository {
 
     RespuestaGenerica<Animal> listarAnimales();
 
+    RespuestaGenerica<Animal> actualizarAnimal(Animal animal);
+
+    RespuestaGenerica<Boolean> borrarAnimal(String idAnimal);
+
     RespuestaGenerica<ResultadosDTO> listarAnimalesPotrero(String codigoPotrero);
 }

@@ -22,7 +22,8 @@ public class PotreroService implements PotreroRepository {
     @Override
     public RespuestaGenerica<String> crearPotrero(Potrero potrero) {
         try {
-            Optional<PotreroData> potreroEncontrado = potreroDataRepository.findByNombrePotreroAndCodigoFinca(potrero.getNombrePotrero(),potrero.getCodigoFinca());
+            Optional<PotreroData> potreroEncontrado = potreroDataRepository.findByNombrePotreroAndCodigoFinca(potrero.getNombrePotrero()
+                    ,potrero.getCodigoFinca());
             if (potreroEncontrado.isPresent()) {
                 return new RespuestaGenerica<>(200,"1");
             }

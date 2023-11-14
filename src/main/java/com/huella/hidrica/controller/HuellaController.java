@@ -100,6 +100,26 @@ public class HuellaController {
         }
     }
 
+    @PutMapping("/actualizarAnimal")
+    public RespuestaGenerica<Animal> actualizarAnimal(@RequestBody Animal animal) {
+        try {
+            return animalService.actualizarAnimal(animal);
+        } catch (Exception exception) {
+            return new RespuestaGenerica<>(400,"Error al trasladar el animal a otro potrero");
+        }
+    }
+
+    @DeleteMapping("/animal/{codigoAnimal}")
+    public RespuestaGenerica<Boolean> borrarAnimal(@PathVariable String codigoAnimal) {
+        try {
+            return animalService.borrarAnimal(codigoAnimal);
+        } catch (Exception exception) {
+            return new RespuestaGenerica<>(400,"Error al listar los animales por potrero");
+        }
+    }
+
+
+
     @PostMapping("/transaladarAnimal")
     public RespuestaGenerica<String> transladarAnimal(@RequestBody Translado translado) {
         try {
