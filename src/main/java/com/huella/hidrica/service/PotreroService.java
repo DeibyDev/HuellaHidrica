@@ -66,9 +66,12 @@ public class PotreroService implements PotreroRepository {
     public RespuestaGenerica<Boolean> eliminarPotrero(String codigoPotrero) {
         Optional<PotreroData> potreroEncontrado = potreroDataRepository.findById(codigoPotrero);
         try {
+            if (potreroEncontrado.isPresent() && !potreroEncontrado.get().getAnimales().isEmpty()) {
+                return new RespuestaGenerica<>(200, "2");
+            }
             if (potreroEncontrado.isPresent() && potreroEncontrado.get().getAnimales().isEmpty()) {
-                            potreroDataRepository.deleteById(codigoPotrero);
-                            return new RespuestaGenerica<>(200, "0", true);
+                potreroDataRepository.deleteById(codigoPotrero);
+                return new RespuestaGenerica<>(200, "0", true);
             }
             return new RespuestaGenerica<>(200, "1");
         } catch (Exception exception) {
