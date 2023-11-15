@@ -66,23 +66,13 @@ public class PotreroService implements PotreroRepository {
     public RespuestaGenerica<Boolean> eliminarPotrero(String codigoPotrero) {
         Optional<PotreroData> potreroEncontrado = potreroDataRepository.findById(codigoPotrero);
         try {
-            if (potreroEncontrado.isPresent()) {
-                potreroEncontrado.map(Convertidor::convertirPotreroADominio)
-                        .map(potreroConvertido -> potreroConvertido.getAnimales().isPresent() ?
-                                potreroConvertido.getAnimales().get().stream().count()
-                                : 0)
-                        .map(numeroAnimales -> {
-                            if (numeroAnimales > 0) {
-                                return new RespuestaGenerica<>(200, "1",
-                                        "No es posible eliminar el potrero ya que cuenta con animales");
-                            }
+            if (potreroEncontrado.isPresent() && potreroEncontrado.get().getAnimales().isEmpty()) {
                             potreroDataRepository.deleteById(codigoPotrero);
                             return new RespuestaGenerica<>(200, "0", true);
-                        });
             }
             return new RespuestaGenerica<>(200, "1");
         } catch (Exception exception) {
-            return new RespuestaGenerica<>(400, "Error al actualizar potrero");
+            return new RespuestaGenerica<>(400, "Error al elminar el  potrero");
         }
     }
 

@@ -33,7 +33,7 @@ public class AnimalService  implements AnimalRepository {
     @Override
     public RespuestaGenerica<String> crearAnimal(Animal animal) {
         try {
-           Optional<AnimalData> animalEncontrado = animalDataRepository.findById(animal.getNumeroCrotal());
+           Optional<AnimalData> animalEncontrado = animalDataRepository.findByCodigoPotreroAndCodigoAnimal(animal.getCodigoPotrero(),animal.getNumeroCrotal());
             if(animalEncontrado.isPresent()){
                 return new RespuestaGenerica<>(200,"1");
             }
